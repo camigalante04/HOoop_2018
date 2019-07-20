@@ -19,9 +19,12 @@ class FilaPreferencial(Fila):
         self.enfila-=1
         self.fila.pop(0)
     
-    def abrircajanueva(self,maxenfila,filanueva):
+    def abrircajanueva(self,filanueva):
         """Si maxenfila es menor que la cantidad de clientes actualmente en espera, abro nueva caja"""
-        pass
+        filanueva.fila = self.fila[:len(self.fila)//2]
+        filanueva.enfila = len(self.fila)//2
+        self.fila = self.fila[len(self.fila)//2:]
+        self.enfila = self.enfila // 2
     
     
     
@@ -30,11 +33,13 @@ class FilaGeneral(Fila):
 
     def insertar(self, cliente):
         """Inserta un nuevo cliente en la fila no preferencial"""
-        pass
-
+        self.enfila += 1
+        self.fila = []
+        
     def atender(self):
         """Atiende al proximo cliente prederencial"""
-        pass      
+        self.enfila -= 1
+        self.fila.pop(0)
 
     
 
@@ -51,4 +56,3 @@ class cliente(object):
     
 if __name__ == "__main__":
     """ simular una fila en una entidad bancaria"""
-    pass
