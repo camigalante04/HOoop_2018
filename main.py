@@ -1,3 +1,9 @@
+#!/usr/bin/python
+
+#-*-coding:utf-8 -*-
+
+import random
+
 class Fila(object):
     """Clase base de fila"""
 
@@ -21,9 +27,9 @@ class FilaPreferencial(Fila):
     
     def abrircajanueva(self,filanueva):
         """Si maxenfila es menor que la cantidad de clientes actualmente en espera, abro nueva caja"""
-        filanueva.fila = self.fila[:len(self.fila)//2]
+        filanueva.fila = self.fila[len(self.fila)//2:]
         filanueva.enfila = len(self.fila)//2
-        self.fila = self.fila[len(self.fila)//2:]
+        self.fila = self.fila[:len(self.fila)//2]
         self.enfila = self.enfila // 2
     
     
@@ -34,7 +40,7 @@ class FilaGeneral(Fila):
     def insertar(self, cliente):
         """Inserta un nuevo cliente en la fila no preferencial"""
         self.enfila += 1
-        self.fila = []
+        self.fila.append(cliente)
         
     def atender(self):
         """Atiende al proximo cliente prederencial"""
@@ -55,4 +61,23 @@ class cliente(object):
   
     
 if __name__ == "__main__":
-    """ simular una fila en una entidad bancaria"""
+    """simular una fila en una entidad bancaria"""
+    
+    filagen = FilaGeneral()
+    filapref = FilaPreferencial()
+    filapref2 = FilaPreferencial()
+
+    """Parametros iniciales: cantidad de clientes inicial y maximo de clientes en fila preferencial (mas alla de ese numero, se abre caja nueva)"""
+    clientes_i = 6
+    maxenfila = 30
+
+    for i in range(0,clientes_i):
+        clientes = cliente(random.randrange(1e7,4e7))
+        clientes.modificarcategoria(random.choice(['General','Preferencial']))
+        if clientes.categoria == 'General':
+            filagen.insertar(clientes)
+        else:
+            filapref.insertar(clientes)
+
+
+    for i in range(
